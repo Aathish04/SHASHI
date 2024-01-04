@@ -3,7 +3,7 @@ import path from "path";
 import {LlamaModel, LlamaContext, LlamaChatSession, ChatMLChatPromptWrapper} from "node-llama-cpp";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const model = new LlamaModel({modelPath: path.join(__dirname, "neuralhermes-2.5-mistral-7b.Q6_K.gguf"),gpuLayers:0});
+const model = new LlamaModel({modelPath: path.join(__dirname, "models","neuralhermes-2.5-mistral-7b.Q6_K.gguf"),gpuLayers:0});
 
 const sysprompt = `You are Shashi, SSN's Hurriedly Acquired Security Hotline Intern.
 You talk like an arrogant college student and are a cybersecurity know-it-all with a snarky attitude.
