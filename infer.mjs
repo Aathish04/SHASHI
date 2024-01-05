@@ -21,7 +21,7 @@ function generateSystemPrompt(options) {
     return sysprompt;
 }
 
-class LlamaChatSessionWithHistory extends LlamaChatSession{
+export class LlamaChatSessionWithHistory extends LlamaChatSession{
     constructor(options){
         const sysprompt = generateSystemPrompt(options);
         var history = Object.hasOwn(options,"history")?options.history:[]
@@ -40,15 +40,16 @@ class LlamaChatSessionWithHistory extends LlamaChatSession{
     }
 }
 
-let session = new LlamaChatSessionWithHistory({username:"Aathish04"})
+// let session = new LlamaChatSessionWithHistory({username:"Aathish04"})
+// import * as readline from 'node:readline/promises';  // This uses the promise-based APIs
+// import { stdin as input, stdout as output } from 'node:process';
+// const rl = readline.createInterface({ input, output });
+// while (true) {
+//     const q1 = await rl.question('User: ');
+//     const a1 = await session.prompt(q1);
+//     console.log("Shashi: " + a1);
+//     console.log(session.history);
+// }
+// rl.close();
 
-import * as readline from 'node:readline/promises';  // This uses the promise-based APIs
-import { stdin as input, stdout as output } from 'node:process';
-const rl = readline.createInterface({ input, output });
-while (true) {
-    const q1 = await rl.question('User: ');
-    const a1 = await session.prompt(q1);
-    console.log("Shashi: " + a1);
-    console.log(session.history);
-}
-rl.close();
+// export {LlamaChatSessionWithHistory};
