@@ -2,7 +2,6 @@
   "name": "shashi",
   "version": "0.0.0",
   "description": "SSN's Hurriedly Acquired Security Hotline Intern",
-  "type": "module",
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,6 +26,7 @@
   "dependencies": {
     "discord.js": "^14.14.1",
     "dotenv": "^16.3.1",
+    "firebase": "^10.7.1",
     "node-llama-cpp": "^2.8.3"
   }
 }
