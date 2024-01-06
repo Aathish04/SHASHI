@@ -11,6 +11,24 @@ async function queryLLMAndGetResponse({ message, prompt }) {
     return response;
 }
 
+async function replyWithLongMessage({message,response}){
+    response_sentences = response.match( /[^\.!\?]+[\.!\?]?/g );
+    // await message.reply("Okay!")
+    resultString = ''
+    current_sentence_index = 0
+    while (current_sentence_index < response_sentences.length) {
+        const currentString = response_sentences[current_sentence_index];
+        if (resultString.length + currentString.length < 2000) {
+            resultString += currentString;
+        } else {
+            await message.reply(resultString);
+            resultString = currentString
+        }
+        current_sentence_index++;
+    }
+    await message.reply(resultString);
+}
+
 module.exports = {
     name: Events.MessageCreate,
     async execute(message) {
@@ -40,8 +58,7 @@ module.exports = {
             } catch (error) {
                 console.error("Error:", error);
             }
-            
-            await message.reply(response);
+            await replyWithLongMessage({message,response})
         }
     },
 };

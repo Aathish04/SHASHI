@@ -8,6 +8,7 @@ Shashi is a Discord Bot built for the SSN Cybersecurity Club to demonstrate LLM 
 - Fluid chat system invoked by `@mention`-ing the bot or replying to a message they sent.
 - Server->Channel->User specific message history/context.
 - Utility command to clear current Server->Channel->User specific chat context/history.
+- Automagically splits non-code messages longer than 2000 characters into smaller messages.
 
 ## Contribution
 Is welcome! If you have an issue to report, please report it on the Issues tab of the project GitHub repository.
