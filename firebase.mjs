@@ -31,7 +31,17 @@ export async function getServerChannelUserHistory(serverid, channelid, userid) {
   }
   return []
 }
-
+export async function deleteServerChannelUserHistory(serverid,channelid,userid){
+  const docRef = doc(db, "servers", serverid, "channels", channelid, "users", userid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    let data = docSnap.data();
+    data[`history_${Date.now()}`] = data["history"];
+    data["history"] = [];
+    await setDoc(docRef,data);
+  }
+  return 0;
+}
 export async function updateServerChannelUserHistory(serverid, channelid, userid, history) {// Also Writes
   const docRef = doc(db, "servers", serverid, "channels", channelid, "users", userid);
   await setDoc(docRef, { "history": history });
