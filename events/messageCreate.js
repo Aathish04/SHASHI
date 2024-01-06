@@ -17,7 +17,10 @@ module.exports = {
         if (
             message.mentions.users.has(message.client.user.id)
             // message.mentions.roles.has(message.client.user.roles)
-            && message.cleanContent.startsWith(`@${message.client.user.username}`)
+            && (
+                message.cleanContent.startsWith(`@${message.client.user.username}`)
+                || message.mentions.repliedUser.id == message.client.user.id
+                )
         ) {
             let prompt = message.cleanContent.replace(`@${message.client.user.username} `, "")
             
