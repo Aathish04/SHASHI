@@ -21,15 +21,21 @@ function generateSystemPrompt(options) {
     return sysprompt;
 }
 
+class BetterChatMLChatPromptWrapper extends ChatMLChatPromptWrapper{
+    getStopStrings(){
+        let stop_strings = super.getStopStrings();
+        stop_strings.push("<|im_end");
+        return stop_strings;
+    }
+}
 export class LlamaChatSessionWithHistory extends LlamaChatSession{
     constructor(options){
         const sysprompt = generateSystemPrompt(options);
         var history = Object.hasOwn(options,"history")?options.history:[]
         if (Object.hasOwn(options,"username")){
-            console.log("hello!")
             history.unshift({prompt:`My name is ${options.username}`,response:`Alright!`})
         }
-        super({ context, promptWrapper: new ChatMLChatPromptWrapper(), systemPrompt: sysprompt, conversationHistory: history});
+        super({ context, promptWrapper: new BetterChatMLChatPromptWrapper(), systemPrompt: sysprompt, conversationHistory: history});
         this.history = history;
     }
     async prompt(prompt,options){
