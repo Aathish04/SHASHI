@@ -26,7 +26,7 @@ const db = getFirestore(app)
 export async function getServerChannelUserHistory(serverid, channelid, userid) {
   const docRef = doc(db, "servers", serverid, "channels", channelid, "users", userid);
   const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
+  if (docSnap.exists() && "history" in docSnap.data() ) {
     return docSnap.data()["history"];
   }
   return []
