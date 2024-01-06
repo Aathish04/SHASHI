@@ -1,7 +1,7 @@
 {
   "name": "shashi",
   "version": "0.0.0",
-  "description": "SSN's Hurriedly Acquired Security Hotline Intern",
+  "description": "SSN's High-Alert Security Hotline Intern",
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
