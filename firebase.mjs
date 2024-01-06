@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore/lite';
 import { getAnalytics } from "firebase/analytics";
 import "dotenv/config";
 
@@ -9,15 +10,30 @@ import "dotenv/config";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: FIREBASE_API_KEY,
-  authDomain: FIREBASE_AUTHDOMAIN,
-  projectId:FIREBASE_PROJECTID ,
-  storageBucket: FIREBASE_STORAGEBUCKET,
-  messagingSenderId:FIREBASE_MESSAGINGSENDERID,
-  appId: FIREBASE_APPID,
-  measurementId: FIREBASE_MEASUREMENTID
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTHDOMAIN,
+  projectId: process.env.FIREBASE_PROJECTID,
+  storageBucket: process.env.FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGINGSENDERID,
+  appId: process.env.FIREBASE_APPID,
+  measurementId: process.env.FIREBASE_MEASUREMENTID
 };
 
-// // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app)
+
+export async function getServerChannelUserHistory(serverid, channelid, userid) {
+  const docRef = doc(db, "servers", serverid, "channels", channelid, "users", userid);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return docSnap.data()["history"];
+  }
+  return []
+}
+
+export async function updateServerChannelUserHistory(serverid, channelid, userid, history) {// Also Writes
+  const docRef = doc(db, "servers", serverid, "channels", channelid, "users", userid);
+  await setDoc(docRef, { "history": history });
+}
 // const analytics = getAnalytics(app);

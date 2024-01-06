@@ -32,8 +32,11 @@ export class LlamaChatSessionWithHistory extends LlamaChatSession{
     constructor(options){
         const sysprompt = generateSystemPrompt(options);
         var history = Object.hasOwn(options,"history")?options.history:[]
-        if (Object.hasOwn(options,"username")){
-            history.unshift({prompt:`My name is ${options.username}`,response:`Alright!`})
+        if (
+            Object.hasOwn(options,"username")
+            && !history.some((elem) => elem.prompt.startsWith("My name is "))
+        ){
+            history.unshift({prompt:`My name is ${options.username}!`,response:`Alright!`})
         }
         super({ context, promptWrapper: new BetterChatMLChatPromptWrapper(), systemPrompt: sysprompt, conversationHistory: history});
         this.history = history;
