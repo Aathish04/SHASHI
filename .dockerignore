@@ -1,0 +1,10 @@
+node_modules
+.env
+compose.yaml
+.DS_Store
+.git
+
+# If a model isn't being used in production, don't include it in the image.
+models/*
+!models/model.gguf
+!models/source.txt
