@@ -1,1 +1,5 @@
-Place your GGUF model here. Make sure it uses the ChatML ChatPrompt, or change the inference code accordingly.
+Place your GGUF model here. Make sure it uses the ChatML ChatPrompt and name it model.gguf, or change the inference code accordingly.
+
+# Poor Man's Git LFS
+Edit the source.txt file to point to wherever the GGUF model should be pulled from when deplpying onto a Cloud service.
+This makes sure you're not pushing very, VERY large files into the Git history.

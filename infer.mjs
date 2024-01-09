@@ -3,7 +3,7 @@ import path from "path";
 import { LlamaModel, LlamaContext, LlamaChatSession, ChatMLChatPromptWrapper } from "node-llama-cpp";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url)); // ES6 doesn't have __dirname, so we make our own.
-const model = new LlamaModel({ modelPath: path.join(__dirname, "models", "neuralhermes-2.5-mistral-7b.Q6_K.gguf"), gpuLayers: 0 });
+const model = new LlamaModel({ modelPath: path.join(__dirname, "models", "model.gguf"), gpuLayers: 0 });
 const context = new LlamaContext({ model, contextSize: 8192, batchSize: 2048 }); // Not the same as "what the model knows"
 
 function generateSystemPrompt(options) {
