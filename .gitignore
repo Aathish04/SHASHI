@@ -253,5 +253,7 @@ Thumbs.db
 
 # LLM Large Files:
 
-models/*
+models/*.gguf
+
+# This contains local development secrets.
 compose.yaml
