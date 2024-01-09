@@ -1,5 +1,5 @@
 ---
-title: Sashi
+title: Shashi
 emoji: 🚀
 colorFrom: pink
 colorTo: indigo
