@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const http = require('http');
 
 require('dotenv').config()
 const token = process.env.DISCORD_TOKEN
@@ -43,3 +44,9 @@ for (const file of eventFiles) {
 
 // Log in to Discord with your client's token
 client.login(token);
+
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+  res.write("Shashi is Up!");
+  res.end();
+}).listen(7860);
