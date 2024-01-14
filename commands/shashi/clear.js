@@ -1,7 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const infer = import('../../infer.mjs');
 const firebaseutils = import("../../firebase.mjs");
-// const LlamaChatSessionWithHistory = import('../../infer.mjs');
 
 module.exports = {
 	data: new SlashCommandBuilder()
