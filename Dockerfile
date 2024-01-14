@@ -26,4 +26,4 @@ RUN wget -nc -O models/model.gguf $(head -n 1 models/source.txt);[ $? -eq 0 ] ||
 RUN npm install
 
 # Run the bot.
-CMD ["node", "bot.js"]
+ENTRYPOINT ["node", "bot.js"]
