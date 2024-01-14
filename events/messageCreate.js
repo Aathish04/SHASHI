@@ -1,11 +1,11 @@
 const { Events, CompressionMethod } = require('discord.js');
-const infer = import('../infer.mjs');
+const infer_llamacpp = import('../infer_llamacpp.mjs');
 const firebaseutils = import("../firebase.mjs");
 
 async function queryLLMAndGetResponse({ message, prompt }) {
     // console.log(message)
     let oldhistory = await (await firebaseutils).getServerChannelUserHistory(message.guildId, message.channelId, message.author.id)
-    let session = new (await infer).LlamaChatSessionWithHistory({ username: message.author.username, history:oldhistory})
+    let session = new (await infer_llamacpp).LlamaChatSessionWithHistory({ username: message.author.username, history:oldhistory})
     response = await session.prompt(prompt);
     (await firebaseutils).updateServerChannelUserHistory(message.guildId, message.channelId, message.author.id,session.history).then((value)=>{console.log("Update Done.")});
     return response;
