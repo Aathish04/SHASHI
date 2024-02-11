@@ -1,0 +1,23 @@
+services:
+  bot:
+    image: shashibot:latest
+    environment:
+        DISCORD_SECRET: "INSERT SECRET_HERE"
+        DISCORD_TOKEN: "DITTO"
+        DISCORD_CLIENT_ID: "DITTO"
+        DISCORD_GUILD_ID: "DITTO"
+
+        FIREBASE_API_KEY: "DITTO"
+        FIREBASE_AUTHDOMAIN: "DITTO"
+        FIREBASE_PROJECTID: "DITTO"
+        FIREBASE_STORAGEBUCKET: "DITTO"
+        FIREBASE_MESSAGINGSENDERID: "DITTO"
+        FIREBASE_APPID: "DITTO"
+        FIREBASE_MEASUREMENTID: "DITTO"
+        
+        LLM_API_BASEURL: "http://host.docker.internal:8000/v1" # Change as appropriate.
+        LLM_API_KEY: "NOT NEEDED"
+  llm:
+    image: shashillm:latest
+    volumes:
+      - ./models:/models
