@@ -1,11 +1,12 @@
 const { Events, CompressionMethod } = require('discord.js');
 const firebaseutils = import("../firebase.mjs");
-
 const OpenAI = require('openai');
 
+require('dotenv').config()
+
 const openai = new OpenAI({
-    baseURL: 'http://localhost:8000/v1',
-    apiKey: "NOT_NEEDED"
+    baseURL: process.env.LLM_API_BASEURL,
+    apiKey: process.env.LLM_API_KEY
 });
 
 function generateSystemPrompt(options) {
