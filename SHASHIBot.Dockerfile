@@ -1,3 +1,5 @@
+# Build with `docker build -t shashibot:latest -f SHASHIBot.Dockerfile .`
+
 # Use the node:slim image
 FROM node:slim
 
