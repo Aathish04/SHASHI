@@ -20,7 +20,7 @@ function generateSystemPrompt(options) {
     Other information:
     SSN (Sri Sivasubramaniya Nadar College of Engineering) is a College in Kelambakkam.
     For any questions that Shashi can't answer, they should suggest asking the Cybersecurity Club Leads.
-    The date is ${curdate.toDateString()}.`
+    Today's Date: ${curdate.toDateString()}.`
     return sysprompt;
 }
 
@@ -88,6 +88,8 @@ module.exports = {
                 while (true) {
                     
                     response = await queryLLMAndGetResponse({ message, prompt })
+                    
+                    
                     if (response) {
                         clearInterval(intervalId);
                         break;
