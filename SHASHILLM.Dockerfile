@@ -12,8 +12,7 @@ RUN apt-get update && apt-get upgrade -y \
     ocl-icd-opencl-dev opencl-headers clinfo \
     libclblast-dev libopenblas-dev \
     && mkdir -p /etc/OpenCL/vendors && echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
-
-COPY . .
+RUN apt-get install  -y nvidia-cuda-toolkit
 
 # setting build related env vars
 ENV CUDA_DOCKER_ARCH=all
@@ -25,7 +24,7 @@ RUN python3 -m pip install --upgrade pip pytest cmake scikit-build setuptools fa
 # Install llama-cpp-python (build with cuda)
 RUN CMAKE_ARGS="-DLLAMA_CUBLAS=on" pip install llama-cpp-python
 
+COPY . .
 # Run the server
-ENTRYPOINT [ "python3", "-m", "llama_cpp.server" ]
-
-CMD ["--model", "'/models/model.gguf'", "--n_gpu_layers", "8","--chat_format","chatml"]
+ENTRYPOINT [ "python3", "-m", "llama_cpp.server"]
+CMD [ "--model","./models/model.gguf","--n_gpu_layers", "8","--chat_format","chatml"]

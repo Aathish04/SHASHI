@@ -15,9 +15,20 @@ services:
         FIREBASE_APPID: "DITTO"
         FIREBASE_MEASUREMENTID: "DITTO"
         
-        LLM_API_BASEURL: "http://host.docker.internal:8000/v1" # Change as appropriate.
+        LLM_API_BASEURL: "http://llm:8000/v1"
         LLM_API_KEY: "NOT NEEDED"
   llm:
     image: shashillm:latest
     volumes:
       - ./models:/models
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - "8000:8000"
