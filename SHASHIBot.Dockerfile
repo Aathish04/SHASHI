@@ -22,4 +22,5 @@ WORKDIR /home/node/shashi
 RUN npm install
 
 # Run the bot.
-ENTRYPOINT ["node", "bot.js"]
+ENTRYPOINT ["node"]
+CMD ["bot.js"]
