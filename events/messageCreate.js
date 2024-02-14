@@ -25,7 +25,6 @@ function generateSystemPrompt(options) {
 }
 
 async function queryLLMAndGetResponse({ message, prompt }) {
-    // console.log(message)
     var pastmessages = await (await firebaseutils).getServerChannelUserHistory(message.guildId, message.channelId, message.author.id)
     if (pastmessages.length){
         pastmessages.push( { role: 'user', content: prompt } )
@@ -44,7 +43,8 @@ async function queryLLMAndGetResponse({ message, prompt }) {
       });
     let response = responsejson.choices[0].message;
     pastmessages.push(response);
-    (await firebaseutils).updateServerChannelUserHistory(message.guildId, message.channelId, message.author.id,pastmessages).then((value)=>{console.log("Update Done.")});
+    await (await firebaseutils).updateServerChannelUserHistory(message.guildId, message.channelId, message.author.id,pastmessages);
+    console.log(`Chat Log Updated for ${message.author}`)
     return response.content;
 }
 
