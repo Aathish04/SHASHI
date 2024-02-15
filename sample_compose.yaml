@@ -41,4 +41,4 @@ services:
         DISCORD_TOKEN: "DITTO"
         DISCORD_CLIENT_ID: "DITTO"
         DISCORD_GUILD_ID: "DITTO"
-    command: ["deploycommands.js"]
+    command: ["registercommands.js"]
