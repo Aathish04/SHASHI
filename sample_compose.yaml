@@ -15,8 +15,10 @@ services:
         FIREBASE_APPID: "DITTO"
         FIREBASE_MEASUREMENTID: "DITTO"
         
+        # LLM_API_BASEURL: "http://host.docker.internal:8000/v1"
+        # LLM_API_BASEURL: "http://gemini-openai-proxy:8000/v1"
         LLM_API_BASEURL: "http://llm:8000/v1"
-        LLM_API_KEY: "NOT NEEDED"
+        LLM_API_KEY: "INSERT GEMINI API KEY HERE"
   llm:
     image: shashillm:latest
     volumes:
@@ -33,6 +35,11 @@ services:
     ports:
       - "8000:8000"
     command: [ "--model","./models/model.gguf","--n_gpu_layers", "10","--chat_format","chatml"]
+
+  gemini-openai-proxy:
+      ports:
+          - 8001:8000
+      image: ghcr.io/zuisong/gemini-openai-proxy:node
 
   registercommands:
     image: shashibot:latest
