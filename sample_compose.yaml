@@ -34,7 +34,7 @@ services:
       - "8000:8000"
     command: [ "--model","./models/model.gguf","--n_gpu_layers", "10","--chat_format","chatml"]
 
-  deploycommands:
+  registercommands:
     image: shashibot:latest
     environment:
         DISCORD_SECRET: "INSERT SECRET_HERE"
