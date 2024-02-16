@@ -7,7 +7,7 @@ const token = process.env.DISCORD_TOKEN
 const guildId = process.env.DISCORD_GUILD_ID
 const clientId = process.env.DISCORD_CLIENT_ID
 
-const commands = [];
+var commands = [];
 // Grab all the command folders from the commands directory you created earlier
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath).filter(file => !file.endsWith('.DS_Store'));
@@ -27,7 +27,7 @@ for (const folder of commandFolders) {
 		}
 	}
 }
-
+// commands = []
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(token);
 
