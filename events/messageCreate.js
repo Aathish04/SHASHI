@@ -26,11 +26,11 @@ function generateSystemPrompt(options) {
 
 async function queryLLMAndGetResponse({ message, prompt }) {
     var pastmessages = await (await firebaseutils).getServerChannelUserHistory(message.guildId, message.channelId, message.author.id)
-    if (pastmessages.length){
-        pastmessages.push( { role: 'user', content: prompt } )
-    }else{
+    if (pastmessages.length) {
+        pastmessages.push({ role: 'user', content: prompt })
+    } else {
         pastmessages = [
-            {role:'system',content:generateSystemPrompt()},
+            { role: 'system', content: generateSystemPrompt() },
             { role: 'user', content: prompt }
         ]
     }
@@ -38,18 +38,18 @@ async function queryLLMAndGetResponse({ message, prompt }) {
         messages: pastmessages,
         temperature: 0.8,
         top_p: 0.95,
-        top_k:40,
+        top_k: 40,
         max_tokens: 425,
-      });
+    });
     let response = responsejson.choices[0].message;
     pastmessages.push(response);
-    await (await firebaseutils).updateServerChannelUserHistory(message.guildId, message.channelId, message.author.id,pastmessages);
+    await (await firebaseutils).updateServerChannelUserHistory(message.guildId, message.channelId, message.author.id, pastmessages);
     console.log(`Chat Log Updated for ${message.author}`)
     return response.content;
 }
 
-async function replyWithLongMessage({message,response}){
-    response_sentences = response.match( /[^\.!\?]+[\.!\?]?/g );
+async function replyWithLongMessage({ message, response }) {
+    response_sentences = response.match(/[^\.!\?]+[\.!\?]?/g);
     // await message.reply("Okay!")
     resultString = ''
     current_sentence_index = 0
@@ -76,20 +76,20 @@ module.exports = {
             && (
                 message.cleanContent.startsWith(`@${message.client.user.username}`)
                 // || message.mentions.repliedUser.id == message.client.user.id
-                )
+            )
         ) {
             let prompt = message.cleanContent.replace(`@${message.client.user.username} `, "")
-            
+
             // The chunk below is to activate the typing status while Shashi gets
             // the message history, generates a response and updates the firestore.
             message.channel.sendTyping();
             const intervalId = setInterval(async () => { message.channel.sendTyping(); }, 10000);
             try {
                 while (true) {
-                    
+
                     response = await queryLLMAndGetResponse({ message, prompt })
-                    
-                    
+
+
                     if (response) {
                         clearInterval(intervalId);
                         break;
@@ -99,7 +99,7 @@ module.exports = {
             } catch (error) {
                 console.error("Error:", error);
             }
-            await replyWithLongMessage({message,response})
+            await replyWithLongMessage({ message, response })
         }
     },
 };
