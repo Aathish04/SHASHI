@@ -42,5 +42,7 @@ for (const file of eventFiles) {
 	}
 }
 
+console.log(`Current Environment Variables: ${JSON.stringify(process.env,null,4)}`)
+
 // Log in to Discord with your client's token
 client.login(token);

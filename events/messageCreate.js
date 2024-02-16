@@ -25,7 +25,14 @@ function generateSystemPrompt(options) {
 }
 
 async function queryLLMAndGetResponse({ message, prompt }) {
-    var pastmessages = await (await firebaseutils).getServerChannelUserHistory(message.guildId, message.channelId, message.author.id)
+    var pastmessages;
+    try {
+        pastmessages = await (await firebaseutils).getServerChannelUserHistory(message.guildId, message.channelId, message.author.id)
+    } catch (error) {
+        console.log("ERROR: ", error)
+        return "ERROR: Couldn't contact Database"
+    }
+    console.log(`Retrieved Chat Log for ${message.author}`)
     if (pastmessages.length) {
         pastmessages.push({ role: 'user', content: prompt })
     } else {
@@ -43,12 +50,17 @@ async function queryLLMAndGetResponse({ message, prompt }) {
     });
     let response = responsejson.choices[0].message;
     pastmessages.push(response);
-    await (await firebaseutils).updateServerChannelUserHistory(message.guildId, message.channelId, message.author.id, pastmessages);
-    console.log(`Chat Log Updated for ${message.author}`)
+    try {
+        await (await firebaseutils).updateServerChannelUserHistory(message.guildId, message.channelId, message.author.id, pastmessages);
+        console.log(`Chat Log Updated for ${message.author}`)
+    } catch (error) {
+        console.log("ERROR: ", error)
+    }
     return response.content;
 }
 
 async function replyWithLongMessage({ message, response }) {
+    console.log(`Sending Response For: ${message}`)
     response_sentences = response.match(/[^\.!\?]+[\.!\?]?/g);
     // await message.reply("Okay!")
     resultString = ''
@@ -69,7 +81,6 @@ async function replyWithLongMessage({ message, response }) {
 module.exports = {
     name: Events.MessageCreate,
     async execute(message) {
-        let response = "DEFAULT_TEXT"
         if (
             message.mentions.users.has(message.client.user.id)
             // message.mentions.roles.has(message.client.user.roles)
@@ -78,6 +89,8 @@ module.exports = {
                 // || message.mentions.repliedUser.id == message.client.user.id
             )
         ) {
+            console.log(`Recieved Message From ${message.author}`)
+            let response = ""
             let prompt = message.cleanContent.replace(`@${message.client.user.username} `, "")
 
             // The chunk below is to activate the typing status while Shashi gets
@@ -88,16 +101,17 @@ module.exports = {
                 while (true) {
 
                     response = await queryLLMAndGetResponse({ message, prompt })
-
-
                     if (response) {
                         clearInterval(intervalId);
                         break;
                     }
+                    // TODO: See if removing the following line is viable.
                     await new Promise(resolve => setTimeout(resolve, 1000));
                 }
             } catch (error) {
-                console.error("Error:", error);
+                clearInterval(intervalId);
+                console.error(`Error for ${message.author}`, error);
+                response = `ERROR: The LLM backend seems to have failed.`
             }
             await replyWithLongMessage({ message, response })
         }

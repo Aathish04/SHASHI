@@ -9,9 +9,16 @@ module.exports = {
     ,
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: true });
-        let response = await (await firebaseutils).deleteServerChannelUserHistory(interaction.guildId, interaction.channelId, interaction.user.id);
-        if (response == 0) {
-            await interaction.editReply({ content: "Successfully cleared your history in this Channel.", ephemeral: true });
+        console.log(`Recieved request to clear history from ${interaction.user.id}(${interaction.user.username})`)
+        try {
+            let response = await (await firebaseutils).deleteServerChannelUserHistory(interaction.guildId, interaction.channelId, interaction.user.id);
+            if (response == 0) {
+                await interaction.editReply({ content: "Successfully cleared your history in this Channel.", ephemeral: true });
+            }
+            console.log(`Cleared history for ${interaction.user.id}(${interaction.user.username})`)
+        } catch (error) {
+            console.log("ERROR: ", error)
+            await interaction.editReply({ content: "Error Contacting Database.", ephemeral: true });
         }
     },
 };
